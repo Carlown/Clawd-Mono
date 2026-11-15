@@ -1,0 +1,18 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# 构建中间产物（tools/release.py 生成）
+build/
+
+# 生成的字体样张页（tools/specimen.py 生成）
+specimen/dist/
+
+# Freebuff
+.freebuff/
+
+# 系统
+Thumbs.db
+.DS_Store
+desktop.ini

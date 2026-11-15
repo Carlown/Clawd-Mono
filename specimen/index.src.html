@@ -1,0 +1,710 @@
+<title>爪迹等宽 Clawd Mono</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Layout: one column of "practice-book pages" — 田字格 for Han, 四线三格 for Latin, a terminal where the font lives. */
+:root {
+  --paper: #f3f5f1;
+  --sheet: #fbfcf9;
+  --ink: #1c2540;
+  --ink-2: #4b5570;
+  --ink-3: #7d869b;
+  --grid: #d98c80;
+  --grid-2: #ecc3bb;
+  --rule: #9fb6c4;
+  --accent: #e0733a;
+  --accent-ink: #b9531d;
+  --term: #14171e;
+  --term-fg: #e5e3da;
+  --term-dim: #8a8f9c;
+  --term-acc: #e8874d;
+  --term-ok: #8fbf7f;
+  --line: #d9ddd6;
+  --mono: 'Clawd Mono', 'Clawd Mono Full', ui-monospace, 'Cascadia Mono', Menlo, Consolas, monospace;
+  --s-1: 13px; --s0: 15px; --s1: 18px; --s2: 24px; --s3: 34px; --s4: 52px;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #12151b; --sheet: #181c24; --ink: #e8e6de; --ink-2: #b5b8c2; --ink-3: #868b99;
+  --grid: #a65d52; --grid-2: #4a3431; --rule: #3e5260; --accent: #f08a50; --accent-ink: #f5a476;
+  --term: #0b0d12; --term-fg: #e5e3da; --term-dim: #8a8f9c; --term-acc: #f0915a; --term-ok: #9ccb8b;
+  --line: #2a2f39; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --paper: #12151b; --sheet: #181c24; --ink: #e8e6de; --ink-2: #b5b8c2; --ink-3: #868b99;
+  --grid: #a65d52; --grid-2: #4a3431; --rule: #3e5260; --accent: #f08a50; --accent-ink: #f5a476;
+  --term: #0b0d12; --term-fg: #e5e3da; --term-dim: #8a8f9c; --term-acc: #f0915a; --term-ok: #9ccb8b;
+  --line: #2a2f39; color-scheme: dark; }
+
+/*__FONTFACE__*/
+
+html { -webkit-text-size-adjust: 100%; }
+body { background: var(--paper); color: var(--ink); font-family: var(--mono); font-size: var(--s0); line-height: 1.75;
+  font-feature-settings: "calt" 1; }
+.wrap { max-width: 1080px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+a { color: var(--accent-ink); }
+::selection { background: var(--accent); color: #fff; }
+button, input, select, textarea { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ---------- top bar */
+.top { display: flex; align-items: center; gap: 14px; padding-block: 18px; border-bottom: 1px dashed var(--line);
+  font-size: var(--s-1); color: var(--ink-3); flex-wrap: wrap; }
+.top b { color: var(--ink); font-weight: 650; letter-spacing: .04em; }
+.top nav { margin-left: auto; display: flex; gap: 16px; flex-wrap: wrap; }
+.top nav a { color: var(--ink-2); text-decoration: none; }
+.top nav a:hover { color: var(--accent-ink); }
+
+/* ---------- hero */
+.hero { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 40px; padding-block: 44px 28px; align-items: center; }
+.sheet { background: var(--sheet); border: 1px solid var(--line); border-radius: 6px; padding: 18px 18px 10px;
+  box-shadow: 0 1px 0 var(--line), 0 18px 40px -28px rgba(20, 30, 60, .35); position: relative; }
+.sheet canvas { display: block; width: 100%; height: auto; }
+.sheet .cap { display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--ink-3); padding-top: 6px; }
+.btn-ghost { background: none; border: 1px solid var(--line); border-radius: 999px; padding: 3px 12px; cursor: pointer; color: var(--ink-2); font-size: 12px; }
+.btn-ghost:hover { border-color: var(--accent); color: var(--accent-ink); }
+.title h1 { font-size: clamp(40px, 7vw, 68px); line-height: 1.05; margin: 0 0 6px; font-weight: 700; letter-spacing: -.01em; text-wrap: balance; }
+.title h1 .en { display: block; font-size: .5em; font-weight: 300; color: var(--ink-2); letter-spacing: .02em; margin-top: 8px; }
+.title p.lede { font-size: var(--s1); line-height: 1.8; color: var(--ink-2); margin: 18px 0 20px; max-width: 34em; }
+.facts { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.facts li { border: 1px solid var(--line); border-radius: 4px; padding: 4px 10px; font-size: 13px; background: var(--sheet); }
+.facts li b { color: var(--accent-ink); font-weight: 650; }
+.cta { display: flex; gap: 10px; margin-top: 22px; flex-wrap: wrap; }
+.btn { display: inline-flex; align-items: center; gap: 8px; border-radius: 6px; padding: 9px 16px; cursor: pointer; text-decoration: none;
+  border: 1px solid var(--ink); background: var(--ink); color: var(--paper); font-weight: 600; font-size: 14px; }
+.btn.alt { background: transparent; color: var(--ink); }
+.btn:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+/* ---------- section headings in 田字格 */
+section { padding-block: 46px 10px; }
+.sh { display: flex; align-items: flex-end; gap: 18px; flex-wrap: wrap; margin-bottom: 22px; }
+.cells { display: flex; gap: 0; }
+.cell { width: 46px; height: 46px; display: grid; place-items: center; font-size: 34px; line-height: 1; font-weight: 500;
+  border: 1.5px solid var(--grid); margin-left: -1.5px; position: relative; background: var(--sheet); color: var(--ink); }
+.cell:first-child { margin-left: 0; }
+.cell::before, .cell::after { content: ""; position: absolute; inset: 0; pointer-events: none; }
+.cell::before { background: linear-gradient(var(--grid-2), var(--grid-2)) center/100% 1px no-repeat,
+  linear-gradient(var(--grid-2), var(--grid-2)) center/1px 100% no-repeat; }
+.sh .en { font-size: 13px; color: var(--ink-3); letter-spacing: .12em; text-transform: uppercase; padding-bottom: 4px; }
+.sh p { flex-basis: 100%; margin: 4px 0 0; color: var(--ink-2); max-width: 46em; }
+
+/* ---------- one pen */
+.pen-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 2fr); gap: 16px; align-items: start; }
+.figure { background: var(--sheet); border: 1px solid var(--line); border-radius: 6px; padding: 10px; }
+.figure svg { width: 100%; height: auto; display: block; }
+.figure figcaption { font-size: 12px; color: var(--ink-3); padding: 6px 4px 0; }
+.layers { display: flex; gap: 16px; flex-wrap: wrap; margin: 14px 0 6px; font-size: 13px; color: var(--ink-2); }
+.layers label { display: inline-flex; gap: 6px; align-items: center; cursor: pointer; }
+.notes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 32px; margin-top: 18px; }
+.notes div { min-width: 0; }
+.notes h3 { font-size: 15px; margin: 10px 0 2px; font-weight: 650; }
+.notes p { margin: 0; color: var(--ink-2); font-size: 14px; line-height: 1.75; }
+.notes code { color: var(--accent-ink); }
+
+/* ---------- weight */
+.wbox { background: var(--sheet); border: 1px solid var(--line); border-radius: 6px; padding: 22px 22px 16px; overflow: hidden; }
+.wline { font-size: clamp(30px, 6.4vw, 66px); line-height: 1.3; white-space: nowrap; overflow-x: auto; scrollbar-width: none; }
+.wline::-webkit-scrollbar { display: none; }
+.wctl { display: flex; align-items: center; gap: 14px; margin-top: 14px; flex-wrap: wrap; font-size: 13px; color: var(--ink-2); }
+.wctl input[type=range] { flex: 1 1 220px; accent-color: var(--accent); }
+.wctl output { min-width: 11ch; font-variant-numeric: tabular-nums; color: var(--ink); }
+.waterfall { margin-top: 18px; display: grid; gap: 2px; }
+.waterfall div { display: grid; grid-template-columns: 15ch minmax(0, 1fr); gap: 10px; align-items: baseline; white-space: nowrap; overflow: hidden; }
+.waterfall span:first-child { font-size: 12px; color: var(--ink-3); }
+.waterfall span:last-child { font-size: 22px; overflow: hidden; text-overflow: ellipsis; }
+
+/* ---------- tester */
+.tester { background: var(--sheet); border: 1px solid var(--line); border-radius: 6px; }
+.tbar { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; padding: 12px 16px; border-bottom: 1px dashed var(--line);
+  font-size: 13px; color: var(--ink-2); }
+.tbar label { display: inline-flex; align-items: center; gap: 8px; }
+.tbar input[type=range] { width: 120px; accent-color: var(--accent); }
+.chips { display: flex; gap: 6px; flex-wrap: wrap; }
+.chip { border: 1px solid var(--line); background: transparent; border-radius: 999px; padding: 2px 10px; cursor: pointer; font-size: 12px; color: var(--ink-2); }
+.chip[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.ttext { padding: 18px 20px 22px; min-height: 220px; outline: none; white-space: pre-wrap; word-break: break-word; line-height: 1.6; }
+
+/* ---------- terminal */
+.term { background: var(--term); color: var(--term-fg); border-radius: 10px; overflow: hidden;
+  box-shadow: 0 24px 50px -30px rgba(0, 0, 0, .6); }
+.term .tb { display: flex; align-items: center; gap: 8px; padding: 10px 14px; background: rgba(255,255,255,.04); font-size: 12px; color: var(--term-dim); }
+.term .tb i { width: 11px; height: 11px; border-radius: 50%; background: #3b3f49; display: inline-block; }
+.term pre { margin: 0; padding: 16px 18px 20px; font-family: var(--mono); font-size: 15px; line-height: 1.24; overflow-x: auto; }
+.t-acc { color: var(--term-acc); } .t-dim { color: var(--term-dim); } .t-ok { color: var(--term-ok); } .t-b { font-weight: 700; }
+.t-claw { color: var(--term-acc); }
+.tnote { font-size: 13px; color: var(--ink-3); margin-top: 10px; }
+
+/* ---------- honest glyphs */
+.pairs { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+.pair { background: var(--sheet); border: 1px solid var(--line); border-radius: 6px; padding: 10px 12px 8px; }
+.pair .g { font-size: 40px; line-height: 1.25; letter-spacing: .08em; white-space: nowrap; }
+.pair .d { font-size: 12px; color: var(--ink-3); }
+
+/* ---------- charset */
+.cs-tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+.cs { display: grid; grid-template-columns: repeat(auto-fill, minmax(44px, 1fr)); border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
+.cs span { aspect-ratio: 1 / 1.15; display: grid; place-items: center; font-size: 24px; border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line); background: var(--sheet); cursor: default; position: relative; min-width: 0; }
+.cs span.w2 { grid-column: span 2; aspect-ratio: auto; }
+.cs span:hover { background: var(--ink); color: var(--paper); }
+.cs-info { font-size: 13px; color: var(--ink-3); margin-top: 8px; min-height: 1.75em; }
+.big-count { display: flex; gap: 22px; flex-wrap: wrap; margin-top: 18px; font-size: 13px; color: var(--ink-2); }
+.big-count b { display: block; font-size: 30px; color: var(--ink); font-weight: 700; }
+
+/* ---------- download */
+.dl { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px; }
+.files { display: grid; gap: 8px; }
+.file { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; align-items: center; background: var(--sheet);
+  border: 1px solid var(--line); border-radius: 6px; padding: 10px 12px; }
+.file b { font-weight: 650; overflow-wrap: anywhere; }
+.file small { grid-column: 1; color: var(--ink-3); font-size: 12px; }
+.file button { grid-row: 1 / span 2; grid-column: 2; }
+.dl-status { font-size: 13px; color: var(--ink-3); min-height: 1.6em; }
+.steps { counter-reset: s; list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+.steps li { counter-increment: s; display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 10px; }
+.steps li::before { content: counter(s); width: 26px; height: 26px; border: 1.5px solid var(--grid); display: grid; place-items: center;
+  font-size: 13px; color: var(--grid); }
+.steps p { margin: 0; color: var(--ink-2); font-size: 14px; }
+.code { position: relative; background: var(--term); color: var(--term-fg); border-radius: 6px; margin-top: 6px; }
+.code pre { margin: 0; padding: 10px 12px; font-size: 13px; line-height: 1.5; overflow-x: auto; font-family: var(--mono); }
+.code button { position: absolute; top: 6px; right: 6px; background: rgba(255,255,255,.08); color: var(--term-fg); border: 0;
+  border-radius: 4px; font-size: 11px; padding: 2px 8px; cursor: pointer; }
+
+footer { border-top: 1px dashed var(--line); margin-top: 56px; padding-block: 22px 40px; font-size: 12.5px; color: var(--ink-3); line-height: 1.8; }
+footer p { margin: 0 0 6px; max-width: 70em; }
+
+@media (max-width: 860px) {
+  .hero { grid-template-columns: minmax(0, 1fr); gap: 26px; padding-top: 26px; }
+  .pen-grid { grid-template-columns: minmax(0, 1fr); }
+  .notes, .dl { grid-template-columns: minmax(0, 1fr); }
+  .term pre { font-size: 12px; }
+}
+@media (max-width: 480px) {
+  .cell { width: 38px; height: 38px; font-size: 28px; }
+  .term pre { font-size: 10.5px; padding: 12px; }
+  .pair .g { font-size: 32px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+</style>
+
+<div class="wrap">
+  <div class="top">
+    <b>爪迹等宽 · Clawd Mono</b><span>v1.0 · 2026</span>
+    <nav aria-label="页面导航"><a href="#pen">一支笔</a><a href="#weight">字重</a><a href="#try">试写</a><a href="#term">终端</a><a href="#set">字符</a><a href="#get">下载</a></nav>
+  </div>
+
+  <div class="hero">
+    <div class="sheet">
+      <canvas id="practice" width="1040" height="760" aria-label="描红练字：笔尖依次写出“爪迹”和“Clawd Mono”"></canvas>
+      <div class="cap"><span id="practice-cap">描红 · 第 1 页</span><button class="btn-ghost" id="rewrite" type="button">再写一遍</button></div>
+    </div>
+    <div class="title">
+      <h1>爪迹等宽<span class="en">Clawd Mono</span></h1>
+      <p class="lede">这是 Claude 给自己写的一套手写体。一支虚拟的笔，写下了 9,574 个汉字和一千多个西文、数学与终端符号；你看到的每一个字，都是同一支笔走过的痕迹。它是等宽的，住在终端里——Claude 平时干活的地方。</p>
+      <ul class="facts">
+        <li><b>9,574</b> 个汉字</li>
+        <li><b>__NONCJK__</b> 个西文与符号</li>
+        <li>字重 <b>100–800</b></li>
+        <li>半角 <b>550</b> · 全角 <b>1100</b></li>
+      </ul>
+      <div class="cta"><a class="btn" href="#get">下载字体</a><a class="btn alt" href="#try">先试写几个字</a></div>
+    </div>
+  </div>
+
+  <section id="pen">
+    <div class="sh"><div class="cells"><span class="cell">一</span><span class="cell">支</span><span class="cell">笔</span></div><span class="en">One pen</span>
+      <p>每个字形都不是“画”出来的轮廓，而是一条笔的中心线（骨架），再让一个椭圆笔尖沿着它走一遍。轮廓是笔尖扫过的包络，最后拟合成 TrueType 的二次曲线。</p></div>
+    <div class="layers" role="group" aria-label="图层">
+      <label><input type="checkbox" id="ly-fill" checked> 字形</label>
+      <label><input type="checkbox" id="ly-skel" checked> 骨架</label>
+      <label><input type="checkbox" id="ly-nib" checked> 笔尖</label>
+      <label><input type="checkbox" id="ly-pts"> 轮廓点</label>
+    </div>
+    <div class="pen-grid" id="pen-grid"></div>
+    <div class="notes">
+      <div><h3>椭圆笔尖</h3><p>笔尖是一个横向略宽的椭圆（常规体 78 × 67 单位），所以竖画比横画稍粗，转角自然变圆。整套字只有这一支笔，粗细轴就是换一支更粗或更细的笔。</p></div>
+      <div><h3>收笔与接笔</h3><p>出锋的收笔会轻轻变细，像笔离开纸面；从竖画里长出来的弧（n、h、m 的肩）在起笔处收窄，免得交接处糊成一团。</p></div>
+      <div><h3>汉字的骨架</h3><p>汉字笔画来自 Make Me a Hanzi 的笔顺中线：去掉楷书起笔的小顿点，按原笔画轮廓重新量出起止点，再交给同一支笔书写。笔顺是真的，所以首页的描红也按笔顺来写。</p></div>
+      <div><h3>粗体会让路</h3><p>“鬱”“爨”这样笔画密的字在粗体里会挤成墨团。构建时按每个字的笔画总长估算密度，越密的字分到的额外粗细越少。</p></div>
+    </div>
+  </section>
+
+  <section id="weight">
+    <div class="sh"><div class="cells"><span class="cell">字</span><span class="cell">重</span></div><span class="en">Weight 100–800</span>
+      <p>一个可变字体文件，从发丝一样的 Thin 到马克笔一样的 ExtraBold。拖动滑块，汉字和西文一起变。</p></div>
+    <div class="wbox">
+      <div class="wline" id="wline" contenteditable="true" spellcheck="false" aria-label="字重示例，可编辑">写代码，也写字。Write code.</div>
+      <div class="wctl">
+        <label for="wslider">字重</label>
+        <input type="range" id="wslider" min="100" max="800" step="1" value="400">
+        <output id="wout" for="wslider">400 Regular</output>
+        <button class="btn-ghost" id="wplay" type="button" aria-pressed="false">呼吸</button>
+      </div>
+      <div class="waterfall" id="waterfall"></div>
+    </div>
+  </section>
+
+  <section id="try">
+    <div class="sh"><div class="cells"><span class="cell">试</span><span class="cell">写</span></div><span class="en">Type tester</span>
+      <p>下面这块可以直接打字。中文、拼音、代码都行；样式开关对应字体里的 OpenType 特性。</p></div>
+    <div class="tester">
+      <div class="tbar">
+        <div class="chips" role="group" aria-label="示例文本">
+          <button class="chip" type="button" data-sample="zh" aria-pressed="true">中文</button>
+          <button class="chip" type="button" data-sample="code" aria-pressed="false">代码</button>
+          <button class="chip" type="button" data-sample="py" aria-pressed="false">拼音</button>
+          <button class="chip" type="button" data-sample="sym" aria-pressed="false">符号</button>
+        </div>
+        <label for="tsize">字号 <input type="range" id="tsize" min="12" max="96" value="26"></label>
+        <label for="tweight">字重 <input type="range" id="tweight" min="100" max="800" value="400"></label>
+        <div class="chips" role="group" aria-label="OpenType 特性">
+          <button class="chip" type="button" data-fea="ss01" aria-pressed="false">ss01 单层 a</button>
+          <button class="chip" type="button" data-fea="ss02" aria-pressed="false">ss02 斜线 0</button>
+          <button class="chip" type="button" data-fea="ss03" aria-pressed="false">ss03 星点 i</button>
+          <button class="chip" type="button" data-fea="ss04" aria-pressed="false">ss04 双层 g</button>
+        </div>
+      </div>
+      <div class="ttext" id="ttext" contenteditable="true" spellcheck="false" aria-label="试写区"></div>
+    </div>
+  </section>
+
+  <section id="term">
+    <div class="sh"><div class="cells"><span class="cell">终</span><span class="cell">端</span></div><span class="en">Where it lives</span>
+      <p>半角 550、全角正好 1100，汉字永远占两格，框线不会错位。方块元素填满整个字格，所以欢迎屏里那只用方块拼出来的小螃蟹是严丝合缝的；转圈的 <span class="t-acc">✻</span> 是一朵会开合的星火。</p></div>
+    <div class="term" role="img" aria-label="终端演示：用 Clawd Mono 显示的 Claude Code 会话">
+      <div class="tb"><i></i><i></i><i></i><span>~/clawd-mono — claude</span></div>
+      <pre id="termpre"></pre>
+    </div>
+    <p class="tnote">动画里依次出现的 · ✢ ✳ ✶ ✻ ✽ 是 Claude Code 思考时的转圈字符，在这套字体里被画成同一朵星火的六帧。</p>
+  </section>
+
+  <section id="honest">
+    <div class="sh"><div class="cells"><span class="cell">不</span><span class="cell">会</span><span class="cell">认</span><span class="cell">错</span></div><span class="en">No look-alikes</span>
+      <p>写代码时把 0 看成 O、把 l 看成 1，都是要花一下午去找的 bug。这套字里每一对容易混的字都长得不一样。</p></div>
+    <div class="pairs" id="pairs"></div>
+  </section>
+
+  <section id="set">
+    <div class="sh"><div class="cells"><span class="cell">字</span><span class="cell">符</span></div><span class="en">Character set</span>
+      <p>点开分组看看。把鼠标放在字上，下面会显示它的码位。</p></div>
+    <div class="cs-tabs chips" id="cs-tabs" role="tablist" aria-label="字符分组"></div>
+    <div class="cs" id="cs"></div>
+    <div class="cs-info" id="cs-info" aria-live="polite">&nbsp;</div>
+    <div class="big-count">
+      <div><b>6,763</b>GB 2312 一、二级汉字（全部）</div>
+      <div><b>2,811</b>常用繁体与其他汉字</div>
+      <div><b>__NONCJK__</b>西文、符号与终端字形</div>
+    </div>
+  </section>
+
+  <section id="get">
+    <div class="sh"><div class="cells"><span class="cell">下</span><span class="cell">载</span></div><span class="en">Get the font</span>
+      <p>日常用可变字体一个文件就够了；有的程序不认可变字体，就装静态版。</p></div>
+    <div class="dl">
+      <div>
+        <div class="files" id="files"></div>
+        <p class="dl-status" id="dl-status" aria-live="polite"></p>
+      </div>
+      <ol class="steps">
+        <li><div><p>Windows：双击 <code>.ttf</code> 点“安装”，或右键选“为所有用户安装”。</p></div></li>
+        <li><div><p>Windows Terminal：设置 → 配置文件 → 默认值 → 外观 → 字体，选 <b>Clawd Mono</b>。也可以写进 settings.json：</p>
+          <div class="code"><button type="button" data-copy="c1">复制</button><pre id="c1">"profiles": { "defaults": {
+    "font": { "face": "Clawd Mono", "size": 12, "weight": "normal" }
+} }</pre></div></div></li>
+        <li><div><p>VS Code（编辑器和内置终端）：</p>
+          <div class="code"><button type="button" data-copy="c2">复制</button><pre id="c2">"editor.fontFamily": "'Clawd Mono', monospace",
+"terminal.integrated.fontFamily": "'Clawd Mono'",
+"editor.fontVariations": true</pre></div></div></li>
+        <li><div><p>Claude Code 跟随终端字体，装好之后重开终端就是这套字了。</p></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <footer>
+    <p>爪迹等宽 Clawd Mono v1.0 —— 由 Claude 设计并用代码一笔一笔“写”出来。这是一份粉丝作品，不是 Anthropic 的官方字体。</p>
+    <p>汉字骨架来自 Make Me a Hanzi 的笔画中线，其数据源自文鼎 AR PL KaitiM GB 与 AR PL UKai，以 Arphic Public License 授权；因此整套字体同样以 Arphic Public License 发布。西文、符号、终端字形与笔的引擎均为原创。</p>
+  </footer>
+</div>
+
+<script>
+const SKEL = /*__SKEL__*/{};
+const DIAG = /*__DIAG__*/{};
+const FILES = /*__FILES__*/[];
+const CHARSET = /*__CHARSET__*/{};
+</script>
+<script>
+(() => {
+'use strict';
+const $ = (s, r = document) => r.querySelector(s);
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const css = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const NAMES = {100:'Thin',200:'ExtraLight',300:'Light',400:'Regular',500:'Medium',600:'SemiBold',700:'Bold',800:'ExtraBold'};
+const wname = (w) => NAMES[Math.round(w / 100) * 100] || '';
+
+/* ================= practice sheet (描红) ================= */
+const cv = $('#practice'), cx = cv.getContext('2d');
+const W = cv.width, H = cv.height;
+// layout: two 田字格 cells for 爪迹, then 四线三格 with "Clawd Mono"
+const HAN = ['爪', '迹'];
+const LAT = 'Clawd Mono';
+const cellS = 330, cellY = 40, cellX0 = (W - cellS * 2) / 2;
+const latSize = 162;         // font px for the Latin line (10 cells fit the sheet)
+const latBase = 598;         // baseline of the Latin line
+// 四线三格 fitted to the font: ascender, x-height, baseline, descender
+const LAT_LINES = [742, 510, 0, -212];
+const unitHan = cellS / 1100 * 1.0;
+let job = 0;
+
+function glyphPlace(ch) {
+  // returns {s (px per unit), ox, oy (baseline origin)} for each animated glyph
+  const i = HAN.indexOf(ch);
+  if (i >= 0) {
+    const s = cellS * 0.98 / 1100;
+    // the ideographic box (-137..841) centred in the cell
+    const ox = cellX0 + i * cellS + (cellS - 1100 * s) / 2;
+    const oy = cellY + cellS / 2 + 352 * s;
+    return { s, ox, oy };
+  }
+  return null;
+}
+function latPlace(k) {
+  const s = latSize / 1000;
+  const total = LAT.length * 550 * s;
+  const ox = (W - total) / 2 + k * 550 * s;
+  return { s, ox, oy: latBase };
+}
+function drawPaper() {
+  cx.clearRect(0, 0, W, H);
+  const grid = css('--grid'), grid2 = css('--grid-2'), rule = css('--rule');
+  cx.lineWidth = 3; cx.strokeStyle = grid;
+  for (let i = 0; i < 2; i++) {
+    const x = cellX0 + i * cellS;
+    cx.strokeRect(x, cellY, cellS, cellS);
+    cx.save(); cx.setLineDash([10, 9]); cx.lineWidth = 1.6; cx.strokeStyle = grid2;
+    cx.beginPath(); cx.moveTo(x, cellY + cellS / 2); cx.lineTo(x + cellS, cellY + cellS / 2);
+    cx.moveTo(x + cellS / 2, cellY); cx.lineTo(x + cellS / 2, cellY + cellS); cx.stroke(); cx.restore();
+  }
+  cx.lineWidth = 1.6; cx.strokeStyle = rule;
+  for (let k = 0; k < 4; k++) {
+    const y = latBase - LAT_LINES[k] * latSize / 1000;
+    cx.save(); if (k === 2) { cx.strokeStyle = grid; cx.lineWidth = 2.2; }
+    cx.beginPath(); cx.moveTo(40, y); cx.lineTo(W - 40, y); cx.stroke(); cx.restore();
+  }
+}
+function drawTrace(alpha) {
+  // faint printed glyphs to trace over (描红) — the page's resting state
+  cx.save(); cx.globalAlpha = alpha; cx.fillStyle = css('--grid');
+  cx.textBaseline = 'alphabetic';
+  HAN.forEach((ch) => { const p = glyphPlace(ch); cx.font = `400 ${1000 * p.s}px "Clawd Mono"`; cx.fillText(ch, p.ox, p.oy); });
+  [...LAT].forEach((ch, k) => { const p = latPlace(k); cx.font = `400 ${1000 * p.s}px "Clawd Mono"`; cx.fillText(ch, p.ox, p.oy); });
+  cx.restore();
+}
+function strokeList() {
+  const list = [];
+  HAN.forEach((ch) => { const d = SKEL[ch]; if (d) d.strokes.forEach((st) => list.push({ st, p: glyphPlace(ch), ch })); });
+  [...LAT].forEach((ch, k) => { const d = SKEL[ch]; if (d) d.strokes.forEach((st) => list.push({ st, p: latPlace(k), ch })); });
+  return list.map((o) => {
+    const pts = o.st.p.map(([x, y]) => [o.p.ox + x * o.p.s, o.p.oy - y * o.p.s]);
+    let L = 0; const acc = [0];
+    for (let i = 1; i < pts.length; i++) { L += Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]); acc.push(L); }
+    return { pts, acc, L, w: o.st.w * o.p.s, h: o.st.h * o.p.s, ch: o.ch };
+  });
+}
+function drawPartial(s, upto) {
+  cx.save();
+  const k = s.h / s.w;
+  cx.scale(1, k);
+  cx.lineCap = 'round'; cx.lineJoin = 'round'; cx.lineWidth = s.w; cx.strokeStyle = css('--ink');
+  cx.beginPath();
+  const P = s.pts;
+  cx.moveTo(P[0][0], P[0][1] / k);
+  if (s.L < 0.01) { cx.lineTo(P[0][0] + 0.01, P[0][1] / k); }
+  let tip = P[0];
+  for (let i = 1; i < P.length; i++) {
+    if (s.acc[i] <= upto) { cx.lineTo(P[i][0], P[i][1] / k); tip = P[i]; }
+    else {
+      const f = (upto - s.acc[i - 1]) / Math.max(1e-6, s.acc[i] - s.acc[i - 1]);
+      tip = [P[i - 1][0] + (P[i][0] - P[i - 1][0]) * f, P[i - 1][1] + (P[i][1] - P[i - 1][1]) * f];
+      cx.lineTo(tip[0], tip[1] / k); break;
+    }
+  }
+  cx.stroke(); cx.restore();
+  return tip;
+}
+function drawClawd(x, y, px, phase) {
+  // Clawd: 12x8 body, eyes at cols 2 and 9, arms, four legs (pixel art)
+  const o = css('--accent'), e = css('--ink');
+  const bob = Math.round(Math.sin(phase) * 1.5);
+  cx.save(); cx.translate(Math.round(x), Math.round(y) + bob);
+  cx.fillStyle = o;
+  cx.fillRect(0, 0, 12 * px, 8 * px);
+  cx.fillRect(-2 * px, 4 * px, 2 * px, 2 * px); cx.fillRect(12 * px, 4 * px, 2 * px, 2 * px);
+  const lift = Math.sin(phase * 2) > 0;
+  [1, 3, 8, 10].forEach((c, i) => cx.fillRect(c * px, 8 * px, px, (lift === (i % 2 === 0) ? 1 : 2) * px));
+  cx.fillStyle = e; cx.fillRect(2 * px, 2 * px, px, 2 * px); cx.fillRect(9 * px, 2 * px, px, 2 * px);
+  cx.restore();
+}
+function finalFrame() {
+  drawPaper(); drawTrace(1);
+  // ink the real glyphs on top
+  cx.save(); cx.fillStyle = css('--ink');
+  HAN.forEach((ch) => { const p = glyphPlace(ch); cx.font = `400 ${1000 * p.s}px "Clawd Mono"`; cx.fillText(ch, p.ox, p.oy); });
+  [...LAT].forEach((ch, k) => { const p = latPlace(k); cx.font = `400 ${1000 * p.s}px "Clawd Mono"`; cx.fillText(ch, p.ox, p.oy); });
+  cx.restore();
+  drawClawd(W - 130, H - 92, 7, 0);
+}
+function write() {
+  const my = ++job;
+  const strokes = strokeList();
+  if (!strokes.length || reduce) { finalFrame(); return; }
+  const speed = 900;             // px per second
+  let si = 0, prog = 0, last = performance.now(), pause = 0.25;
+  const done = [];
+  let tipPos = null;
+  function frame(now) {
+    if (my !== job) return;
+    const dt = Math.min(0.05, (now - last) / 1000); last = now;
+    if (pause > 0) pause -= dt;
+    else if (si < strokes.length) {
+      const s = strokes[si];
+      prog += speed * dt;
+      if (prog >= s.L) { done.push(s); si++; prog = 0; pause = si < strokes.length && strokes[si].ch !== s.ch ? 0.32 : 0.09; }
+    }
+    drawPaper(); drawTrace(0.22);
+    done.forEach((s) => drawPartial(s, s.L + 1));
+    if (si < strokes.length && pause <= 0) tipPos = drawPartial(strokes[si], prog);
+    if (tipPos) {
+      cx.save(); cx.fillStyle = css('--accent'); cx.beginPath(); cx.arc(tipPos[0], tipPos[1], 7, 0, Math.PI * 2); cx.fill(); cx.restore();
+      const cxp = Math.max(60, Math.min(W - 150, tipPos[0] - 42));
+      drawClawd(cxp, H - 92, 7, now / 90);
+    }
+    if (si < strokes.length) requestAnimationFrame(frame);
+    else setTimeout(() => { if (my === job) finalFrame(); }, 350);
+  }
+  requestAnimationFrame(frame);
+}
+$('#rewrite').addEventListener('click', () => write());
+
+/* ================= one-pen diagrams ================= */
+function diagSVG(d, label) {
+  const adv = d.adv;
+  const pad = 40, top = 1000, bot = -320;
+  const vb = `${-pad} ${-top} ${adv + 2 * pad} ${top - bot}`;
+  const ns = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(ns, 'svg');
+  svg.setAttribute('viewBox', vb); svg.setAttribute('role', 'img'); svg.setAttribute('aria-label', label);
+  const g = document.createElementNS(ns, 'g'); g.setAttribute('transform', 'scale(1,-1)'); svg.appendChild(g);
+  const add = (tag, attrs, parent = g) => { const e = document.createElementNS(ns, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); parent.appendChild(e); return e; };
+  [0, 510, 690, 742, -212].forEach((y) => add('line', { x1: -pad, x2: adv + pad, y1: y, y2: y, stroke: 'var(--line)', 'stroke-width': y === 0 ? 4 : 2 }));
+  add('rect', { x: 0, y: -280, width: adv, height: 1240, fill: 'none', stroke: 'var(--grid-2)', 'stroke-width': 3, 'stroke-dasharray': '14 10' });
+  const fill = add('path', { d: d.outline, fill: 'var(--ink)', 'fill-opacity': .14, stroke: 'var(--ink)', 'stroke-width': 3, 'fill-rule': 'nonzero', class: 'l-fill' });
+  const nib = add('g', { class: 'l-nib' });
+  const sk = add('g', { class: 'l-skel' });
+  d.skeleton.forEach((st) => {
+    const P = st.p;
+    add('polyline', { points: P.map((p) => p.join(',')).join(' '), fill: 'none', stroke: 'var(--accent)', 'stroke-width': 7, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }, sk);
+    // pen stamps every ~90 units
+    let acc = 0, next = 0;
+    for (let i = 0; i < P.length; i++) {
+      if (i) acc += Math.hypot(P[i][0] - P[i - 1][0], P[i][1] - P[i - 1][1]);
+      if (acc >= next || i === P.length - 1) {
+        add('ellipse', { cx: P[i][0], cy: P[i][1], rx: st.w / 2, ry: st.h / 2, fill: 'none', stroke: 'var(--accent)', 'stroke-opacity': .55, 'stroke-width': 2.5 }, nib);
+        next = acc + 95;
+      }
+    }
+  });
+  const pts = add('g', { class: 'l-pts' });
+  d.points.forEach(([x, y, on]) => {
+    if (on) add('rect', { x: x - 7, y: y - 7, width: 14, height: 14, fill: 'var(--ink)' }, pts);
+    else add('circle', { cx: x, cy: y, r: 6, fill: 'var(--sheet)', stroke: 'var(--ink)', 'stroke-width': 2.5 }, pts);
+  });
+  return svg;
+}
+const penGrid = $('#pen-grid');
+[['a', '常规体 a：两笔。上弧连竖，碗形从竖画里长出来，起笔处收窄。'], ['g', '单层 g：碗形 + 一条带收笔的长尾。'], ['永', '“永”字五笔，按笔顺写。拐角处自动断开，让笔尖画出圆转角。']]
+  .forEach(([ch, cap]) => {
+    if (!DIAG[ch]) return;
+    const f = document.createElement('figure'); f.className = 'figure'; f.style.margin = '0';
+    f.appendChild(diagSVG(DIAG[ch], `${ch} 的骨架与笔尖`));
+    const c = document.createElement('figcaption'); c.textContent = cap; f.appendChild(c);
+    penGrid.appendChild(f);
+  });
+function syncLayers() {
+  [['fill', 'l-fill'], ['skel', 'l-skel'], ['nib', 'l-nib'], ['pts', 'l-pts']].forEach(([id, cls]) => {
+    const on = $('#ly-' + id).checked;
+    document.querySelectorAll('.' + cls).forEach((e) => { e.style.display = on ? '' : 'none'; });
+  });
+}
+['fill', 'skel', 'nib', 'pts'].forEach((id) => $('#ly-' + id).addEventListener('change', syncLayers));
+syncLayers();
+
+/* ================= weight ================= */
+const wl = $('#wline'), ws = $('#wslider'), wo = $('#wout'), wp = $('#wplay');
+function setW(w) { wl.style.fontVariationSettings = `"wght" ${w}`; wl.style.fontWeight = Math.round(w); wo.textContent = `${Math.round(w)} ${wname(w)}`; }
+ws.addEventListener('input', () => { stopBreath(); setW(+ws.value); });
+let breath = 0, bt0 = 0;
+function stopBreath() { if (breath) cancelAnimationFrame(breath); breath = 0; wp.setAttribute('aria-pressed', 'false'); }
+wp.addEventListener('click', () => {
+  if (breath) { stopBreath(); return; }
+  wp.setAttribute('aria-pressed', 'true'); bt0 = performance.now();
+  const tick = (t) => { const w = 450 - 350 * Math.cos((t - bt0) / 1800); ws.value = Math.round(w); setW(w); breath = requestAnimationFrame(tick); };
+  breath = requestAnimationFrame(tick);
+});
+setW(400);
+const wf = $('#waterfall');
+Object.entries(NAMES).forEach(([w, n]) => {
+  const row = document.createElement('div');
+  row.innerHTML = `<span>${w} ${n}</span><span style="font-weight:${w};font-variation-settings:'wght' ${w}">一支笔写下所有字 The quick brown fox · 0123456789</span>`;
+  wf.appendChild(row);
+});
+
+/* ================= tester ================= */
+const SAMPLES = {
+  zh: '永和九年，岁在癸丑，暮春之初，会于会稽山阴之兰亭。\n我是 Claude。这是我给自己写的手写体：一支笔，写下 9,574 个汉字。\n“你好，世界！”——（括号）、【方头】《书名》「引号」……',
+  code: '// 0O 1lI| 5S 2Z 8B  {}[]()<>\nfn bloom(frames: &[char]) -> usize {\n    let spark = [\'·\', \'✢\', \'✳\', \'✶\', \'✻\', \'✽\'];\n    frames.iter().filter(|c| spark.contains(c)).count()  // ≥ 0 ≠ ∞\n}\nconst 问候 = "你好" + `, ${user}!`;  /* 全角两格 */',
+  py: 'Pīnyīn: nǐ hǎo, wǒ shì Claude.\nā á ǎ à · ō ó ǒ ò · ē é ě è · ī í ǐ ì · ū ú ǔ ù · ǖ ǘ ǚ ǜ ü\nZhè shì yì tào shǒuxiě de děngkuān zìtǐ.',
+  sym: '⏺ Read(src/main.rs)\n  ⎿  Read 128 lines\n✻ Thinking…  ☐ todo  ☒ done  ✓ ✗  ⏵⏵ ⏸  ❯ › ∴ …\n╭──┬──╮ ▁▂▃▄▅▆▇█  ⣿⡇⠿ ░▒▓  α β γ λ μ π Σ Ω ∀∃∈∑∫√≈≤≥ ←↑→↓⇒   ',
+};
+const tt = $('#ttext');
+const feats = new Set();
+function applyTester() {
+  tt.style.fontSize = $('#tsize').value + 'px';
+  const w = +$('#tweight').value;
+  tt.style.fontWeight = w; tt.style.fontVariationSettings = `"wght" ${w}`;
+  tt.style.fontFeatureSettings = [...feats].map((f) => `"${f}" 1`).join(', ') || 'normal';
+}
+document.querySelectorAll('[data-sample]').forEach((b) => b.addEventListener('click', () => {
+  document.querySelectorAll('[data-sample]').forEach((x) => x.setAttribute('aria-pressed', x === b ? 'true' : 'false'));
+  tt.textContent = SAMPLES[b.dataset.sample];
+}));
+document.querySelectorAll('[data-fea]').forEach((b) => b.addEventListener('click', () => {
+  const f = b.dataset.fea; if (feats.has(f)) feats.delete(f); else feats.add(f);
+  b.setAttribute('aria-pressed', feats.has(f) ? 'true' : 'false'); applyTester();
+}));
+['#tsize', '#tweight'].forEach((s) => $(s).addEventListener('input', applyTester));
+tt.textContent = SAMPLES.zh; applyTester();
+
+/* ================= terminal ================= */
+const cw = (ch) => { const c = ch.codePointAt(0); return (c >= 0x1100 && (c <= 0x115f || (c >= 0x2e80 && c <= 0xa4cf) || (c >= 0xac00 && c <= 0xd7a3) || (c >= 0xf900 && c <= 0xfaff) || (c >= 0xfe30 && c <= 0xfe4f) || (c >= 0xff00 && c <= 0xff60) || (c >= 0xffe0 && c <= 0xffe6))) ? 2 : 1; };
+const width = (s) => [...s].reduce((a, ch) => a + cw(ch), 0);
+const pad = (s, n) => s + ' '.repeat(Math.max(0, n - width(s)));
+const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+const COLS = 58;
+const SPIN = ['·', '✢', '✳', '✶', '✻', '✽', '✻', '✶', '✳', '✢'];
+const VERBS = ['Thinking', 'Pondering', 'Inking', 'Clauding', 'Scribbling'];
+function termHTML(f, verb, secs) {
+  const box = (rows) => {
+    const inner = COLS - 4;
+    let out = `<span class="t-acc">╭${'─'.repeat(COLS - 2)}╮</span>\n`;
+    rows.forEach((r) => { out += `<span class="t-acc">│</span> ${r.html}${' '.repeat(Math.max(0, inner - width(r.text)))} <span class="t-acc">│</span>\n`; });
+    out += `<span class="t-acc">╰${'─'.repeat(COLS - 2)}╯</span>`;
+    return out;
+  };
+  const row = (text, html) => ({ text, html: html ?? esc(text) });
+  let s = box([row('✻ Welcome to Claude Code!', '<span class="t-acc">✻</span> Welcome to <span class="t-b">Claude Code</span>!'), row(''), row('  /help 帮助 · cwd: ~/clawd-mono', '<span class="t-dim">  /help 帮助 · cwd: ~/clawd-mono</span>')]);
+  s += '\n\n';
+  s += `<span class="t-claw"> ▐▛███▜▌</span>   <span class="t-b">爪迹等宽</span> <span class="t-dim">Clawd Mono</span>\n`;
+  s += `<span class="t-claw">▝▜█████▛▘</span>  <span class="t-dim">Opus 5.5 · 字重 100–800</span>\n`;
+  s += `<span class="t-claw">  ▘▘ ▝▝</span>\n\n`;
+  s += `<span class="t-dim">&gt;</span> 给claude做一款字体，想法什么都你来\n\n`;
+  s += `<span class="t-ok">⏺</span> 那我写一套自己的手写体：一支笔，写下所有字。\n\n`;
+  s += `<span class="t-ok">⏺</span> <span class="t-b">Write</span>(tools/geom.py)\n`;
+  s += `  <span class="t-dim">⎿</span>  Wrote 512 lines to <span class="t-b">tools/geom.py</span>\n\n`;
+  s += `<span class="t-ok">⏺</span> <span class="t-b">Update Todos</span>\n`;
+  s += `  <span class="t-dim">⎿</span>  <span class="t-ok">☒</span> <s class="t-dim">笔的引擎：骨架 → 椭圆笔尖 → TrueType</s>\n`;
+  s += `     <span class="t-ok">☒</span> <s class="t-dim">9,574 个汉字，按笔顺书写</s>\n`;
+  s += `     <span class="t-b">☐</span> 让 ✻ 开成一朵花\n\n`;
+  s += `<span class="t-acc">${f}</span> <span class="t-acc">${verb}…</span> <span class="t-dim">(${secs}s · esc 中断)</span>\n\n`;
+  s += `<span class="t-dim">${'─'.repeat(COLS)}</span>\n`;
+  s += `<span class="t-dim">&gt;</span> <span style="background:var(--term-fg);color:var(--term)"> </span>\n`;
+  s += `<span class="t-dim">${'─'.repeat(COLS)}</span>\n`;
+  s += `  <span class="t-acc">⏵⏵</span> <span class="t-dim">accept edits on (shift+tab 切换)</span>`;
+  return s;
+}
+const tp = $('#termpre');
+let tick = 0;
+tp.innerHTML = termHTML('✻', 'Thinking', 4);
+if (!reduce) setInterval(() => {
+  tick++;
+  if (document.hidden) return;
+  tp.innerHTML = termHTML(SPIN[tick % SPIN.length], VERBS[Math.floor(tick / 30) % VERBS.length], 4 + Math.floor(tick / 8));
+}, 120);
+
+/* ================= honest pairs ================= */
+const PAIRS = [['0Oo', '零 · 大写 O · 小写 o'], ['1lI|', '一 · 小写 L · 大写 i · 竖线'], ['5S', '五 · S'], ['2Z', '二 · Z'], ['8B', '八 · B'],
+  ['rn m', 'r+n 与 m'], ['cl d', 'c+l 与 d'], ['\'"`', '单引号 · 双引号 · 反引号'], ['{([', '花 · 圆 · 方括号'], ['.,:;', '句点 · 逗号 · 冒号'],
+  ['己已巳', 'jǐ · yǐ · sì'], ['未末', 'wèi · mò'], ['戊戌戍', 'wù · xū · shù'], ['土士', 'tǔ · shì'], ['人入八', 'rén · rù · bā'], ['日曰', 'rì · yuē']];
+const pairs = $('#pairs');
+PAIRS.forEach(([g, d]) => { const e = document.createElement('div'); e.className = 'pair'; e.innerHTML = `<div class="g"></div><div class="d"></div>`; e.firstChild.textContent = g; e.lastChild.textContent = d; pairs.appendChild(e); });
+
+/* ================= charset ================= */
+const csTabs = $('#cs-tabs'), cs = $('#cs'), csInfo = $('#cs-info');
+function showSet(name) {
+  csTabs.querySelectorAll('button').forEach((b) => b.setAttribute('aria-selected', b.dataset.k === name ? 'true' : 'false'));
+  csTabs.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', b.dataset.k === name ? 'true' : 'false'));
+  cs.textContent = '';
+  const frag = document.createDocumentFragment();
+  for (const ch of CHARSET[name]) {
+    const s = document.createElement('span');
+    s.textContent = ch;
+    if (cw(ch) === 2) s.className = 'w2';
+    s.tabIndex = 0;
+    frag.appendChild(s);
+  }
+  cs.appendChild(frag);
+}
+const info = (ch) => `U+${ch.codePointAt(0).toString(16).toUpperCase().padStart(4, '0')}  ${ch}`;
+cs.addEventListener('mouseover', (e) => { if (e.target.tagName === 'SPAN') csInfo.textContent = info(e.target.textContent); });
+cs.addEventListener('focusin', (e) => { if (e.target.tagName === 'SPAN') csInfo.textContent = info(e.target.textContent); });
+Object.keys(CHARSET).forEach((k, i) => {
+  const b = document.createElement('button'); b.type = 'button'; b.className = 'chip'; b.dataset.k = k; b.textContent = k;
+  b.setAttribute('role', 'tab');
+  b.addEventListener('click', () => showSet(k)); csTabs.appendChild(b);
+});
+showSet(Object.keys(CHARSET)[0]);
+
+/* ================= downloads ================= */
+const filesEl = $('#files'), dlStatus = $('#dl-status');
+let downloads = null;
+FILES.forEach((f) => {
+  const el = document.createElement('div'); el.className = 'file';
+  el.innerHTML = `<b></b><small></small><button class="btn alt" type="button" disabled>下载</button>`;
+  el.querySelector('b').textContent = f.name; el.querySelector('small').textContent = f.note;
+  const btn = el.querySelector('button');
+  btn.addEventListener('click', async () => {
+    if (!downloads) return;
+    btn.disabled = true; dlStatus.textContent = `正在准备 ${f.name}…`;
+    try {
+      const r = await fetch(f.path); if (!r.ok) throw new Error(r.status);
+      const blob = await r.blob();
+      await downloads.save({ filename: f.name, data: blob });
+      dlStatus.textContent = `已保存 ${f.name}`;
+    } catch (e) {
+      const code = e && e.code;
+      dlStatus.textContent = code === 'declined' ? '已取消。' : code === 'rate_limited' ? '已经有一个保存窗口开着，先处理它。' : `没能保存（${code || e.message || e}）。字体文件也在服务器的 clawd-mono/fonts/ 目录里。`;
+    } finally { btn.disabled = false; }
+  });
+  filesEl.appendChild(el);
+});
+(async () => {
+  try { downloads = window.claude && window.claude.use ? await window.claude.use('downloads') : null; } catch (e) { downloads = null; }
+  if (downloads) filesEl.querySelectorAll('button').forEach((b) => { b.disabled = false; });
+  else dlStatus.textContent = '这个视图里不能直接下载。字体文件在服务器的 clawd-mono/fonts/ 目录，也打包在 clawd-mono/ClawdMono-v1.0.zip。';
+})();
+
+/* ================= copy buttons ================= */
+document.querySelectorAll('[data-copy]').forEach((b) => b.addEventListener('click', async () => {
+  const pre = document.getElementById(b.dataset.copy);
+  try { await navigator.clipboard.writeText(pre.textContent); b.textContent = '已复制'; }
+  catch (e) { const r = document.createRange(); r.selectNodeContents(pre); const s = getSelection(); s.removeAllRanges(); s.addRange(r); b.textContent = '已选中'; }
+  setTimeout(() => { b.textContent = '复制'; }, 1600);
+}));
+
+/* ================= boot ================= */
+drawPaper(); drawTrace(1);
+const ready = document.fonts && document.fonts.load ? Promise.all([
+  document.fonts.load('400 100px "Clawd Mono"', '爪迹Clawd Mono'),
+]) : Promise.resolve();
+ready.then(() => { drawPaper(); drawTrace(1); setTimeout(write, 500); }).catch(() => finalFrame());
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => finalFrame());
+new MutationObserver(() => finalFrame()).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+})();
+</script>
