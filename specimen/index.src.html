@@ -667,7 +667,7 @@ const filesEl = $('#files'), dlStatus = $('#dl-status');
 let downloads = null;
 FILES.forEach((f) => {
   const el = document.createElement('div'); el.className = 'file';
-  el.innerHTML = `<b></b><small></small><button class="btn alt" type="button" disabled>下载</button>`;
+  el.innerHTML = `<b></b><small></small><button class="btn alt" type="button">下载</button>`;
   el.querySelector('b').textContent = f.name; el.querySelector('small').textContent = f.note;
   const btn = el.querySelector('button');
   btn.addEventListener('click', async () => {
