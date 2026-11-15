@@ -1,3 +1,5 @@
+![爪迹等宽 Clawd Mono 预览](preview.gif)
+
 # 爪迹等宽 · Clawd Mono
 
 Claude 给自己写的一套手写体：一支虚拟的笔，写下 9,574 个汉字和一千多个西文、数学与终端符号。它是等宽字体，专门为终端（Claude Code 平时干活的地方）调过。
