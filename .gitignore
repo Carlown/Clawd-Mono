@@ -16,3 +16,6 @@ specimen/dist/
 Thumbs.db
 .DS_Store
 desktop.ini
+
+# Cloudflare 上传包（放样张页 + 字体副本）
+cloudflare/
