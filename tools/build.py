@@ -19,9 +19,9 @@ import fontout
 
 MASTERS = {
     # stem W, horizontal H (Latin);  Wc/Hc for CJK strokes
-    'Thin': dict(wght=100, W=22, H=20, Wc=19, Hc=17),
-    'Regular': dict(wght=400, W=78, H=67, Wc=62, Hc=53),
-    'ExtraBold': dict(wght=800, W=138, H=116, Wc=106, Hc=90),
+    'Thin': dict(wght=100, W=22, H=20, Wc=22, Hc=20),
+    'Regular': dict(wght=400, W=78, H=67, Wc=78, Hc=67),
+    'ExtraBold': dict(wght=800, W=138, H=116, Wc=138, Hc=116),
 }
 ORDER = ['Regular', 'Thin', 'ExtraBold']   # Regular first: it records the plan
 CTX = {m: Ctx(**v) for m, v in MASTERS.items()}

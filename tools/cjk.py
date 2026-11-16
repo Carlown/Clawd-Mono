@@ -8,7 +8,7 @@ KaitiM GB / UKai, Arphic Public License).  For each stroke we
      (depends on the master's pen radius -> outer extents stay constant),
   3. split at real corners (zhe) and over-tight turns, smooth the rest with
      a chord-scaled Catmull-Rom spline,
-  4. draw with the CJK pen (slightly lighter than the Latin pen).
+  4. draw with the Latin pen, with optical relief for dense characters.
 """
 import json
 import math
@@ -21,7 +21,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 DATA_PATH = os.path.join(os.path.dirname(HERE), 'data', 'mmah', 'graphics.txt')
 
 ADV = 1100
-SCALE = 0.955          # MMAH em (1024) -> font units
+SCALE = 0.995          # Slightly enlarge the ink within the unchanged 1100-unit cell.
 CX, CY = 550, 352      # where MMAH's em centre (512, 388) lands
 CORNER_DEG = 54
 TIGHT_R = 44           # MMAH units: turns tighter than this become corners
@@ -247,7 +247,7 @@ def _thin(m, min_gap=26.0):
 
 
 _DENS = {}
-WC_REG, HC_REG = 62, 53
+WC_REG, HC_REG = 78, 67
 
 
 def density_factor(ch):
@@ -264,15 +264,20 @@ def density_factor(ch):
 
 
 def pen_for(c, ch):
-    Wc, Hc = c.Wc, c.Hc
-    if Wc > WC_REG:
-        f = density_factor(ch)
-        Wc = WC_REG + (Wc - WC_REG) * f
-        Hc = HC_REG + (Hc - HC_REG) * f
-    return Wc, Hc
+    f = density_factor(ch)
+    # Open characters use the same pen as Latin. Dense regulars get up to
+    # 8% relief; the heavy master's extra ink still follows the density.
+    relief = 0.90 + 0.10 * f
+    if c.Wc <= WC_REG:
+        # Fade optical relief out toward the thin master.
+        blend = min(1.0, max(0.0, (c.Wc - 22) / (WC_REG - 22)))
+        k = 1.0 - blend * (1.0 - relief)
+        return c.Wc * k, c.Hc * k
+    return (WC_REG * relief + (c.Wc - WC_REG) * f,
+            HC_REG * relief + (c.Hc - HC_REG) * f)
 
 
-def draw(G, c, ch):
+def _draw(G, c, ch):
     from geom import quad_stroke
     Wc, Hc = pen_for(c, ch)
     r_mmah = (Wc / 2) / SCALE
@@ -292,6 +297,66 @@ def draw(G, c, ch):
             if RECORD['on']:
                 RECORD['items'].append({'pts': _sample_quad(ctrl), 'w': 2 * pen[0], 'h': 2 * pen[1],
                                         'closed': False, 'piece': True})
+
+
+_XFIT = {}
+
+
+def _ink_bounds(contours):
+    from fontTools.pens.boundsPen import BoundsPen
+    from fontTools.pens.pointPen import PointToSegmentPen
+    bounds = BoundsPen(None)
+    points = PointToSegmentPen(bounds)
+    for contour in contours:
+        if not contour:
+            continue
+        points.beginPath()
+        for x, y, on in contour:
+            points.addPoint((x, y), segmentType='qcurve' if on else None)
+        points.endPath()
+    return bounds.bounds
+
+
+def horizontal_fit(ch):
+    """Use one optical fit for every master, retaining the 1100-unit grid."""
+    if ch not in _XFIT:
+        from build import CTX
+        from glyphlib import Glyph, RECORD
+        recording = RECORD['on']
+        RECORD['on'] = False
+        try:
+            bounds = {}
+            for name, context in CTX.items():
+                glyph = Glyph(glyph_name(ch), context, ADV)
+                _draw(glyph, context, ch)
+                bounds[name] = _ink_bounds(glyph.contours)
+        finally:
+            RECORD['on'] = recording
+        regular = bounds['Regular']
+        left = min(b[0] for b in bounds.values())
+        right = max(b[2] for b in bounds.values())
+        # Most characters reach a 950-unit ink width. The stretch limit
+        # preserves naturally narrow forms; the master union protects edges.
+        scale = min(1.14, max(1.0, 950 / (regular[2] - regular[0])),
+                    (ADV - 60) / (right - left))
+        shift = ADV / 2 - scale * (regular[0] + regular[2]) / 2
+        shift = max(30 - scale * left, min(shift, ADV - 30 - scale * right))
+        _XFIT[ch] = scale, shift
+    return _XFIT[ch]
+
+
+def draw(G, c, ch):
+    from glyphlib import RECORD
+    first_contour = len(G.contours)
+    first_record = len(RECORD['items'])
+    _draw(G, c, ch)
+    scale, shift = horizontal_fit(ch)
+    for i in range(first_contour, len(G.contours)):
+        G.contours[i] = [(x * scale + shift, y, on) for x, y, on in G.contours[i]]
+    if RECORD['on']:
+        for item in RECORD['items'][first_record:]:
+            item['pts'] = [[x * scale + shift, y] for x, y in item['pts']]
+            item['w'] *= scale
 
 
 def _dp(P, idx, tol):

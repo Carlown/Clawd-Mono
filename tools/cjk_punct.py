@@ -3,11 +3,12 @@ forms, drawn with the CJK pen."""
 import math
 from glyphlib import Sk, taper, Ctx
 from geom import polygon, signed_area, reverse_contour
+from cjk import ADV, CX, CY, SCALE
 
 REG = {}
-ADV = 1100
 # ideographic em box in font units (MMAH em mapped by cjk.SCALE)
-EL, EB, EM = 61, -137, 978
+EM = 1024 * SCALE
+EL, EB = CX - EM / 2, CY - EM / 2
 
 
 def nx(x):
@@ -32,7 +33,7 @@ def cpen(c):
 def cctx(c):
     """Context whose Latin pen is the CJK pen (for borrowed Latin shapes)."""
     d = dict(c.__dict__)
-    d['W'], d['H'] = c.Wc * 1.08, c.Hc * 1.08
+    d['W'], d['H'] = c.Wc, c.Hc
     return Ctx(**d)
 
 
