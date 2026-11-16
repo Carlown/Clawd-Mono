@@ -271,6 +271,8 @@ def make_statics(weights=(400, 700)):
             nt.setName(fontout.FAMILY_ZH, 16, 3, 1, 0x804)
             nt.setName(style, 17, 3, 1, 0x804)
         os2 = inst['OS/2']
+        # Instancing recalculates the average; preserve the half-width cell metric.
+        os2.xAvgCharWidth = vf['OS/2'].xAvgCharWidth
         os2.usWeightClass = w
         os2.fsSelection = (os2.fsSelection & ~0b1100001) | (1 << 7) | (
             (1 << 6) if style == 'Regular' else (1 << 5) if style == 'Bold' else 0)
